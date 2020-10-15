@@ -3,6 +3,7 @@
  */
 const puppeteer = require('puppeteer')
 const fs = require('fs')
+const path = require('path')
 
 const URL = 'https://juejin.im/'
 
@@ -19,12 +20,12 @@ async function start() {
     waitUntil: 'networkidle0'
   })
 
-  const titleList = await page.evaluate(() => {
+  const titleList = await page.evaluate((URL) => {
     const $titleList = document.querySelectorAll('.content-box .title')
-    return [...$titleList].map($title => $title.innerText)
-  })
+    return [...$titleList].map($title => `${$title.innerText} : ${URL}${$title.getAttribute('href')}`)
+  }, URL)
 
-  console.log(titleList)
+  fs.writeFileSync(path.resolve(__dirname, 'juejin.txt'), titleList.join('\n'))
 
   browser.close()
 }
