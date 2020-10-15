@@ -11,6 +11,8 @@ const puppeteer = require('puppeteer')
     return $cards.length
   })
 
+  console.log(await page.$('.container .columns .column .card .article'))
+
   console.log('第一页的文章数：', firstPostCount)
 
   await browser.close()
