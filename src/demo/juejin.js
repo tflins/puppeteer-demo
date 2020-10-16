@@ -5,7 +5,7 @@ const puppeteer = require('puppeteer')
 const fs = require('fs')
 const path = require('path')
 
-const URL = 'https://juejin.im/'
+const URL = 'https://juejin.im'
 
 async function start() {
   const browser = await puppeteer.launch()
