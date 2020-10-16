@@ -20,12 +20,26 @@ async function start() {
     waitUntil: 'networkidle0'
   })
 
-  const titleList = await page.evaluate((URL) => {
+  const $hotBtn = await page.$('.nav-item a[href="/?sort=three_days_hottest"]')
+  await $hotBtn.click()
+  await page.waitForSelector('.content-box .title')
+
+  const titleList = await page.evaluate(URL => {
     const $titleList = document.querySelectorAll('.content-box .title')
-    return [...$titleList].map($title => `${$title.innerText} : ${URL}${$title.getAttribute('href')}`)
+    const $likeList = document.querySelectorAll('.action-list .like')
+    return [...$titleList].map(($title, index) => {
+      return {
+        标题: $title.innerText,
+        链接: `${URL}${$title.getAttribute('href')}`,
+        点赞: $likeList[index] ? $likeList[index].innerText : null
+      }
+    })
   }, URL)
 
-  fs.writeFileSync(path.resolve(__dirname, 'juejin.txt'), titleList.join('\n'))
+  fs.writeFileSync(
+    path.resolve(__dirname, 'juejin.json'),
+    JSON.stringify({ titleList }, null, '\t')
+  )
 
   browser.close()
 }

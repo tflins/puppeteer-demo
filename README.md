@@ -10,4 +10,4 @@
 
 ## demo
 
-- [爬取掘金首页第一屏的文章标题及连接](https://github.com/tflins/puppeteer-demo/blob/master/src/demo/juejin.js)
+- [爬取掘金三天之内的热榜文章标题、连接、点赞数](https://github.com/tflins/puppeteer-demo/blob/master/src/demo/juejin.js)
